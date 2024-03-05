@@ -1,15 +1,23 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
+import 'package:az_travel/app/theme/textstyle.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:sizer/sizer.dart';
 
 import '../data/models/usermodel.dart';
 import '../routes/app_pages.dart';
+import '../utils/dialog.dart';
 
 class AuthController extends GetxController {
   var isAuth = false.obs;
+
+  var context = Get.context!;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -31,6 +39,219 @@ class AuthController extends GetxController {
   //   var email = auth.currentUser!.email;
   //   yield* firestore.collection("users").doc(email).snapshots();
   // }
+
+  var errorStatusPass = false.obs;
+  var errorTextPass = ''.obs;
+  var errorStatusPassAgain = false.obs;
+  var errorTextPassAgain = ''.obs;
+  var errorStatusLoginEmail = false.obs;
+  var errorTextLoginEmail = ''.obs;
+  var errorStatusLoginPass = false.obs;
+  var errorTextLoginPass = ''.obs;
+
+  Future<UserCredential> createUser(String email, String password) async {
+    try {
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      await userCredential.user!.sendEmailVerification();
+      return userCredential;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      rethrow;
+    }
+  }
+
+  Future<void> register(String namaLengkap, String email, String password,
+      String passwordAgain) async {
+    try {
+      log('step pertama');
+      if (password != passwordAgain) {
+        errorStatusPass.value = true;
+        errorTextPass.value = 'Kata sandi harus sama!';
+        errorStatusPassAgain.value = true;
+        errorTextPassAgain.value = 'Kata sandi harus sama!';
+      }
+      final userData = firestore.collection('users');
+
+      final docRef = userData.doc(email);
+      final checkData = await docRef.get();
+
+      if (checkData.exists == false) {
+        UserCredential user = await createUser(email, password);
+
+        Get.back();
+
+        String uid = user.user?.uid ?? '';
+
+        User? userNow = await auth
+            .authStateChanges()
+            .firstWhere((user) => user?.uid == uid);
+
+        if (userNow != null) {
+          await userNow.updateDisplayName(namaLengkap);
+        }
+
+        await userData.doc(email).set({
+          "uid": uid,
+          "photoUrl": '',
+          "email": email,
+          "noKTP": '',
+          "namaLengkap": namaLengkap,
+          "nomorTelepon": '',
+          "alamat": '',
+        });
+
+        if (kDebugMode) {
+          print('User berhasil dibuat dan bisa login');
+        }
+
+        await Get.dialog(
+          dialogAlertOnly(
+            onPressed: () async {
+              Get.back();
+            },
+            animationLink: 'assets/lottie/finish_aztravel.json',
+            text: "Berhasil!",
+            textSub:
+                "Akun berhasil dibuat. Silahkan masuk dan verifikasi akun anda.",
+            textAlert: getTextAlert(),
+            textAlertSub: getTextAlertSub(),
+          ),
+        );
+
+        await Get.offAllNamed(Routes.LOGIN);
+      } else {
+        Get.dialog(
+          dialogAlertOnly(
+            onPressed: () async {
+              Get.back();
+            },
+            animationLink: 'assets/lottie/warning_aztravel.json',
+            text: "Terjadi Kesalahan!",
+            textSub: "Akun sudah ada dan pernah dibuat.",
+            textAlert: getTextAlert(),
+            textAlertSub: getTextAlertSub(),
+          ),
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        log('$e');
+      }
+    }
+  }
+
+  void login(String email, String password) async {
+    try {
+      UserCredential myUser = await auth.signInWithEmailAndPassword(
+          email: email, password: password);
+
+      if (myUser.user!.emailVerified) {
+        isAuth.value = true;
+
+        await Get.offAllNamed(Routes.HOME);
+      } else {
+        Get.dialog(
+          dialogAlertBtn(
+            onPressed: () async {
+              myUser.user!.sendEmailVerification();
+              Get.back();
+              Future.delayed(const Duration(microseconds: 0), () async {
+                await auth.signOut();
+              });
+              await Get.dialog(
+                dialogAlertBtn(
+                  onPressed: () async {
+                    Get.back();
+                  },
+                  animationLink: 'assets/lottie/finish_aztravel.json',
+                  widthBtn: 26.w,
+                  textBtn: "OK",
+                  text: "Email Sukses Terkirim!",
+                  textSub: "Cek inbox email Anda",
+                  textAlert: getTextAlert(),
+                  textAlertSub: getTextAlertSub(),
+                  textAlertBtn: getTextAlertBtn(),
+                ),
+              );
+            },
+            animationLink: 'assets/lottie/warning_aztravel.json',
+            widthBtn: 26.w,
+            textBtn: "Kirim",
+            text: "Email Belum Diverifikasi!",
+            textSub: "klik tombol Kirim untuk mengirim email verifikasi",
+            textAlert: getTextAlert(),
+            textAlertSub: getTextAlertSub(),
+            textAlertBtn: getTextAlertBtn(),
+          ),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        if (kDebugMode) {
+          print('No user found for that email.');
+        }
+        Get.dialog(
+          dialogAlertOnly(
+            onPressed: () async {
+              Get.back();
+            },
+            animationLink: 'assets/lottie/warning_aztravel.json',
+            text: "Terjadi Kesalahan!",
+            textSub: "Akun tidak ditemukan.",
+            textAlert: getTextAlert(),
+            textAlertSub: getTextAlertSub(),
+          ),
+        );
+      } else if (e.code == 'wrong-password') {
+        if (kDebugMode) {
+          print('Wrong password provided for that user.');
+        }
+        errorStatusLoginPass.value = true;
+        errorTextLoginPass.value = 'Kata sandi yang dimasukkan salah.';
+      } else if (e.code == 'invalid-email') {
+        if (kDebugMode) {
+          print('Email address is not valid.');
+        }
+        errorStatusLoginEmail.value = true;
+        errorTextLoginEmail.value = 'Email salah. Periksa kembali email anda.';
+      } else {
+        if (kDebugMode) {
+          print('Error : $e');
+        }
+        Get.dialog(
+          dialogAlertOnly(
+            onPressed: () async {
+              Get.back();
+            },
+            animationLink: 'assets/lottie/warning_aztravel.json',
+            text: "Terjadi Kesalahan!",
+            textSub: "Periksa isian form anda.",
+            textAlert: getTextAlert(),
+            textAlertSub: getTextAlertSub(),
+          ),
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      Get.dialog(
+        dialogAlertOnly(
+          onPressed: () async {
+            Get.back();
+          },
+          animationLink: 'assets/lottie/warning_aztravel.json',
+          text: "Terjadi Kesalahan!",
+          textSub: "Tidak dapat masuk.",
+          textAlert: getTextAlert(),
+          textAlertSub: getTextAlertSub(),
+        ),
+      );
+    }
+  }
 
   Future signInGoogle() async {
     await _googleSignIn.signOut();
@@ -55,7 +276,7 @@ class AuthController extends GetxController {
       log("$userCredential");
 
       //inisiasi collection yg akan dipakai
-      CollectionReference users = firestore.collection("users");
+      var users = firestore.collection("users");
 
       String emailUser = auth.currentUser!.email.toString();
 
@@ -64,7 +285,7 @@ class AuthController extends GetxController {
         "photoUrl": _currentUser!.photoUrl ?? '',
         "email": emailUser,
         "noKTP": '',
-        "namaLengkap": '',
+        "namaLengkap": _currentUser!.displayName ?? '',
         "nomorTelepon": '',
         "alamat": '',
       });
@@ -76,8 +297,13 @@ class AuthController extends GetxController {
   }
 
   Future<void> logout() async {
-    await _googleSignIn.disconnect();
-    await _googleSignIn.signOut();
+    await auth.signOut();
+    if (kDebugMode) {
+      print('berhasil logout');
+    }
+    // await _googleSignIn.disconnect();
+    // await _googleSignIn.signOut();
+
     Get.offAllNamed(Routes.LOGIN);
   }
 }

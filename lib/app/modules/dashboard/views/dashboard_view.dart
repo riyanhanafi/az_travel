@@ -18,7 +18,10 @@ class DashboardView extends GetView<DashboardController> {
     return Scaffold(
       appBar: AppBar(
         title: Padding(
-          padding: EdgeInsets.only(right: 2.5.w, left: 2.5.w),
+          padding: EdgeInsets.only(
+            right: 2.5.w,
+            left: 2.5.w,
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -27,7 +30,10 @@ class DashboardView extends GetView<DashboardController> {
                 onPressed: () {
                   Get.toNamed(Routes.FORM_MOBIL, arguments: ['create']);
                 },
-                icon: const Icon(PhosphorIconsBold.listPlus),
+                icon: Icon(
+                  PhosphorIconsBold.plus,
+                  size: 7.w,
+                ),
               ),
             ],
           ),
@@ -37,7 +43,7 @@ class DashboardView extends GetView<DashboardController> {
         onPressed: () {
           Get.toNamed(Routes.FORM_MOBIL, arguments: ['create']);
         },
-        child: const Icon(PhosphorIconsBold.listPlus),
+        child: const Icon(PhosphorIconsBold.plus),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -113,27 +119,43 @@ class DashboardView extends GetView<DashboardController> {
                                       MainAxisAlignment.spaceEvenly,
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        Get.defaultDialog(
-                                          title: "Peringatan",
-                                          middleText:
-                                              "Apakah anda yakin untuk menghapus data?",
-                                          textConfirm: 'Ya',
-                                          textCancel: 'Tidak',
-                                          onConfirm: () {
-                                            formDataMobilC
-                                                .hapusDataMobil(dataMobil.id!);
-                                            Get.back();
-                                            Get.back();
+                                    Row(
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            Get.defaultDialog(
+                                              title: "Peringatan",
+                                              middleText:
+                                                  "Apakah anda yakin untuk menghapus data?",
+                                              textConfirm: 'Ya',
+                                              textCancel: 'Tidak',
+                                              onConfirm: () {
+                                                formDataMobilC.hapusDataMobil(
+                                                    dataMobil.id!);
+                                                Get.back();
+                                                Get.back();
+                                              },
+                                              onCancel: () {
+                                                Get.back();
+                                                Get.back();
+                                              },
+                                            );
                                           },
-                                          onCancel: () {
-                                            Get.back();
-                                            Get.back();
+                                          icon: const Icon(
+                                              PhosphorIconsBold.trash),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            Get.toNamed(Routes.FORM_MOBIL,
+                                                arguments: [
+                                                  'update',
+                                                  dataMobil
+                                                ]);
                                           },
-                                        );
-                                      },
-                                      icon: Icon(PhosphorIconsBold.trash),
+                                          icon: const Icon(
+                                              PhosphorIconsBold.pencil),
+                                        ),
+                                      ],
                                     ),
                                     SizedBox(
                                       height: 2.h,

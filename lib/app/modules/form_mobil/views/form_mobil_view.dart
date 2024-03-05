@@ -54,7 +54,7 @@ class FormMobilView extends GetView<FormMobilController> {
                     keyboardType: TextInputType.name,
                     validator: controller.normalValidator,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 1,
                   ),
                   formInput(
@@ -65,7 +65,7 @@ class FormMobilView extends GetView<FormMobilController> {
                     keyboardType: TextInputType.name,
                     validator: controller.normalValidator,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 1,
                   ),
                   formInput(
@@ -76,7 +76,7 @@ class FormMobilView extends GetView<FormMobilController> {
                     keyboardType: TextInputType.text,
                     validator: controller.normalValidator,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 1,
                   ),
                   formInput(
@@ -87,7 +87,7 @@ class FormMobilView extends GetView<FormMobilController> {
                     keyboardType: TextInputType.number,
                     validator: controller.normalValidator,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 1,
                   ),
                   formInput(
@@ -98,7 +98,7 @@ class FormMobilView extends GetView<FormMobilController> {
                     keyboardType: TextInputType.name,
                     validator: controller.normalValidator,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 1,
                   ),
                   formInput(

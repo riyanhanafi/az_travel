@@ -7,6 +7,9 @@ import 'package:hexcolor/hexcolor.dart';
 Color light = HexColor('#FFFFFF');
 Color dark = HexColor('#121212');
 Color black = HexColor('#000000');
+Color error = HexColor('#FF0000');
+Color redAppoint = HexColor('#6C7D01');
+Color errorBg = HexColor('#FF6C6C');
 
 Color blue_0C134F = HexColor('#0C134F');
 Color yellow1_F9B401 = HexColor('#F9B401');
