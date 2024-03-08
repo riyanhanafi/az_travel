@@ -63,8 +63,15 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> register(String namaLengkap, String email, String password,
-      String passwordAgain) async {
+  Future<void> register(
+      String username,
+      String email,
+      String password,
+      String passwordAgain,
+      String namaLengkap,
+      String noKTP,
+      String noTelp,
+      String alamat) async {
     try {
       log('step pertama');
       if (password != passwordAgain) {
@@ -97,10 +104,11 @@ class AuthController extends GetxController {
           "uid": uid,
           "photoUrl": '',
           "email": email,
-          "noKTP": '',
+          "noKTP": noKTP,
+          "username": username,
           "namaLengkap": namaLengkap,
-          "nomorTelepon": '',
-          "alamat": '',
+          "nomorTelepon": noTelp,
+          "alamat": alamat,
         });
 
         if (kDebugMode) {
@@ -285,7 +293,8 @@ class AuthController extends GetxController {
         "photoUrl": _currentUser!.photoUrl ?? '',
         "email": emailUser,
         "noKTP": '',
-        "namaLengkap": _currentUser!.displayName ?? '',
+        "username": _currentUser!.displayName ?? '',
+        "namaLengkap": '',
         "nomorTelepon": '',
         "alamat": '',
       });

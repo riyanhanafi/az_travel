@@ -70,10 +70,43 @@ class RegisterView extends GetView<RegisterController> {
                                 height: 2.5.h,
                               ),
                               formRegister(
-                                  key: controller.usernameFormKey.value,
-                                  textEditingController: controller.usernameC,
+                                  key: controller.usernameRegisterKey.value,
+                                  textEditingController:
+                                      controller.usernameRegisterC,
                                   hintText: 'Username',
                                   iconPrefix: PhosphorIconsFill.user,
+                                  keyboardType: TextInputType.name,
+                                  validator: controller.normalValidator),
+                              formRegister(
+                                  key: controller.namaLengkapRegisterKey.value,
+                                  textEditingController:
+                                      controller.namaLengkapRegisterC,
+                                  hintText: 'Nama Lengkap',
+                                  iconPrefix: PhosphorIconsFill.userRectangle,
+                                  keyboardType: TextInputType.name,
+                                  validator: controller.normalValidator),
+                              formRegister(
+                                  key: controller.noKtpRegisterKey.value,
+                                  textEditingController:
+                                      controller.noKtpRegisterC,
+                                  hintText: 'Nomor KTP',
+                                  iconPrefix: PhosphorIconsFill.listNumbers,
+                                  keyboardType: TextInputType.number,
+                                  validator: controller.normalValidator),
+                              formRegister(
+                                  key: controller.noTelpRegisterKey.value,
+                                  textEditingController:
+                                      controller.noTelpRegisterC,
+                                  hintText: 'Nomor Telepon',
+                                  iconPrefix: PhosphorIconsFill.phone,
+                                  keyboardType: TextInputType.number,
+                                  validator: controller.normalValidator),
+                              formRegister(
+                                  key: controller.alamatRegisterKey.value,
+                                  textEditingController:
+                                      controller.alamatRegisterC,
+                                  hintText: 'Alamat',
+                                  iconPrefix: PhosphorIconsFill.house,
                                   keyboardType: TextInputType.name,
                                   validator: controller.normalValidator),
                               formRegister(
@@ -110,21 +143,35 @@ class RegisterView extends GetView<RegisterController> {
                               ),
                               InkWell(
                                 onTap: () {
-                                  if (controller.usernameFormKey.value.currentState!.validate() &&
-                                      controller
-                                          .emailRegisterKey.value.currentState!
-                                          .validate() &&
-                                      controller
-                                          .passRegisterKey.value.currentState!
-                                          .validate() &&
-                                      controller.passRegisterAgainKey.value
+                                  if (controller.usernameRegisterKey.value
                                           .currentState!
+                                          .validate() &&
+                                      controller.emailRegisterKey.value.currentState!
+                                          .validate() &&
+                                      controller.passRegisterKey.value.currentState!
+                                          .validate() &&
+                                      controller.passRegisterAgainKey.value.currentState!
+                                          .validate() &&
+                                      controller.namaLengkapRegisterKey.value
+                                          .currentState!
+                                          .validate() &&
+                                      controller.noKtpRegisterKey.value.currentState!
+                                          .validate() &&
+                                      controller
+                                          .noTelpRegisterKey.value.currentState!
+                                          .validate() &&
+                                      controller
+                                          .alamatRegisterKey.value.currentState!
                                           .validate()) {
                                     authC.register(
-                                      controller.usernameC.text,
+                                      controller.usernameRegisterC.text,
                                       controller.emailC.text,
                                       controller.passC.text,
                                       controller.passAgainC.text,
+                                      controller.namaLengkapRegisterC.text,
+                                      controller.noKtpRegisterC.text,
+                                      controller.noTelpRegisterC.text,
+                                      controller.alamatRegisterC.text,
                                     );
                                   }
                                 },
