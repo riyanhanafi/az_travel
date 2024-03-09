@@ -1,5 +1,7 @@
 import 'package:az_travel/app/modules/form_mobil/controllers/form_mobil_controller.dart';
 import 'package:az_travel/app/routes/app_pages.dart';
+import 'package:az_travel/app/theme/button.dart';
+import 'package:az_travel/app/theme/textstyle.dart';
 import 'package:az_travel/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -26,15 +28,12 @@ class DashboardView extends GetView<DashboardController> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               const Text('Data Mobil'),
-              IconButton(
-                onPressed: () {
-                  Get.toNamed(Routes.FORM_MOBIL, arguments: ['create']);
-                },
-                icon: Icon(
-                  PhosphorIconsBold.plus,
-                  size: 7.w,
-                ),
-              ),
+              btnItem(
+                  textBtn: "Tambah",
+                  icon: PhosphorIconsBold.plus,
+                  onTap: () {
+                    Get.toNamed(Routes.FORM_MOBIL, arguments: ['create']);
+                  }),
             ],
           ),
         ),
@@ -43,7 +42,17 @@ class DashboardView extends GetView<DashboardController> {
         onPressed: () {
           Get.toNamed(Routes.FORM_MOBIL, arguments: ['create']);
         },
-        child: const Icon(PhosphorIconsBold.plus),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(PhosphorIconsBold.plus),
+            Text(
+              'Tambah',
+              textAlign: TextAlign.center,
+              style: getTextAlertSub(),
+            )
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -121,40 +130,41 @@ class DashboardView extends GetView<DashboardController> {
                                   children: [
                                     Row(
                                       children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            Get.defaultDialog(
-                                              title: "Peringatan",
-                                              middleText:
-                                                  "Apakah anda yakin untuk menghapus data?",
-                                              textConfirm: 'Ya',
-                                              textCancel: 'Tidak',
-                                              onConfirm: () {
-                                                formDataMobilC.hapusDataMobil(
-                                                    dataMobil.id!);
-                                                Get.back();
-                                                Get.back();
-                                              },
-                                              onCancel: () {
-                                                Get.back();
-                                                Get.back();
-                                              },
-                                            );
-                                          },
-                                          icon: const Icon(
-                                              PhosphorIconsBold.trash),
+                                        btnItem(
+                                            textBtn: "Hapus",
+                                            icon: PhosphorIconsBold.trash,
+                                            onTap: () {
+                                              Get.defaultDialog(
+                                                title: "Peringatan",
+                                                middleText:
+                                                    "Apakah anda yakin untuk menghapus data?",
+                                                textConfirm: 'Ya',
+                                                textCancel: 'Tidak',
+                                                onConfirm: () {
+                                                  formDataMobilC.hapusDataMobil(
+                                                      dataMobil.id!);
+                                                  Get.back();
+                                                  Get.back();
+                                                },
+                                                onCancel: () {
+                                                  Get.back();
+                                                  Get.back();
+                                                },
+                                              );
+                                            }),
+                                        SizedBox(
+                                          width: 5.w,
                                         ),
-                                        IconButton(
-                                          onPressed: () {
-                                            Get.toNamed(Routes.FORM_MOBIL,
-                                                arguments: [
-                                                  'update',
-                                                  dataMobil
-                                                ]);
-                                          },
-                                          icon: const Icon(
-                                              PhosphorIconsBold.pencil),
-                                        ),
+                                        btnItem(
+                                            textBtn: "Edit",
+                                            icon: PhosphorIconsBold.pencil,
+                                            onTap: () {
+                                              Get.toNamed(Routes.FORM_MOBIL,
+                                                  arguments: [
+                                                    'update',
+                                                    dataMobil
+                                                  ]);
+                                            }),
                                       ],
                                     ),
                                     SizedBox(

@@ -31,3 +31,10 @@ getTextErrorFormLogin() {
       ..strokeJoin = StrokeJoin.round,
   );
 }
+
+getTextUnderBtn() {
+  return TextStyle(
+    color: Theme.of(context).textTheme.titleMedium!.color,
+    fontSize: 8.sp,
+  );
+}
