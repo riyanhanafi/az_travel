@@ -8,6 +8,8 @@ class DataMobilModel {
   String? hargaPerHari;
   String? tipeBahanBakar;
   String? tahun;
+  String? deskripsi;
+  String? fotoMobil;
 
   DataMobilModel({
     this.id,
@@ -17,6 +19,8 @@ class DataMobilModel {
     this.hargaPerHari,
     this.tipeBahanBakar,
     this.tahun,
+    this.deskripsi,
+    this.fotoMobil,
   });
 
   factory DataMobilModel.fromJson(DocumentSnapshot data) {
@@ -29,6 +33,8 @@ class DataMobilModel {
       hargaPerHari: json['hargaPerHari'],
       tipeBahanBakar: json['tipeBahanBakar'],
       tahun: json['tahun'],
+      deskripsi: json['deskripsi'],
+      fotoMobil: json['fotoMobil'],
     );
   }
 }

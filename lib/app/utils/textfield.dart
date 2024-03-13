@@ -350,7 +350,68 @@ Widget formInput({
                 fontSize: 12.sp,
               ),
           isDense: true,
-          contentPadding: const EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.all(5),
+          prefixIcon: Padding(
+            padding: EdgeInsets.only(
+              left: 1.w,
+              right: 0.8.w,
+            ),
+            child: Align(
+              widthFactor: 0.5,
+              heightFactor: 0.5,
+              child: Icon(
+                iconPrefix,
+                size: 18,
+                color: Theme.of(Get.context!).iconTheme.color,
+              ),
+            ),
+          ),
+          filled: true,
+          fillColor: Theme.of(Get.context!).cardColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: BorderSide(color: black, width: 0.5),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget formInputMultiLine({
+  required Key key,
+  required TextEditingController textEditingController,
+  required String hintText,
+  required IconData iconPrefix,
+  required String? Function(String?)? validator,
+}) {
+  FocusScopeNode currentFocus = FocusScope.of(Get.context!);
+  return Form(
+    key: key,
+    child: SizedBox(
+      height: 10.h,
+      child: TextFormField(
+        controller: textEditingController,
+        keyboardType: TextInputType.multiline,
+        validator: validator,
+        maxLines: null,
+        onTap: () {
+          // if (!currentFocus.hasPrimaryFocus) {
+          //   currentFocus.unfocus();
+          // }
+        },
+        onTapOutside: (event) {
+          if (!currentFocus.hasPrimaryFocus) {
+            currentFocus.unfocus();
+          }
+        },
+        decoration: InputDecoration(
+          hintText: hintText,
+          hintStyle: Theme.of(Get.context!).textTheme.displaySmall!.copyWith(
+                fontSize: 12.sp,
+              ),
+          isDense: true,
+          contentPadding: const EdgeInsets.all(5),
           prefixIcon: Padding(
             padding: EdgeInsets.only(
               left: 1.w,
