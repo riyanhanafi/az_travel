@@ -1,11 +1,17 @@
-// ignore_for_file: constant_identifier_names
-
 import 'package:get/get.dart';
 
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/dashboard/views/dashboard_view.dart';
+import '../modules/dashboard_user/bindings/dashboard_user_binding.dart';
+import '../modules/dashboard_user/views/dashboard_user_view.dart';
+import '../modules/data_pelanggan/bindings/data_pelanggan_binding.dart';
+import '../modules/data_pelanggan/views/data_pelanggan_view.dart';
+import '../modules/data_reservasi/bindings/data_reservasi_binding.dart';
+import '../modules/data_reservasi/views/data_reservasi_view.dart';
 import '../modules/form_mobil/bindings/form_mobil_binding.dart';
 import '../modules/form_mobil/views/form_mobil_view.dart';
+import '../modules/form_pesan_mobil/bindings/form_pesan_mobil_binding.dart';
+import '../modules/form_pesan_mobil/views/form_pesan_mobil_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -14,10 +20,16 @@ import '../modules/process/bindings/process_binding.dart';
 import '../modules/process/views/process_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/profile_user/bindings/profile_user_binding.dart';
+import '../modules/profile_user/views/profile_user_view.dart';
 import '../modules/register/bindings/register_binding.dart';
 import '../modules/register/views/register_view.dart';
+import '../modules/splash_screen/bindings/splash_screen_binding.dart';
+import '../modules/splash_screen/views/splash_screen_view.dart';
 import '../modules/welcome_screen/bindings/welcome_screen_binding.dart';
 import '../modules/welcome_screen/views/welcome_screen_view.dart';
+
+// ignore_for_file: constant_identifier_names
 
 part 'app_routes.dart';
 
@@ -66,6 +78,36 @@ class AppPages {
       name: _Paths.FORM_MOBIL,
       page: () => const FormMobilView(),
       binding: FormMobilBinding(),
+    ),
+    GetPage(
+      name: _Paths.PROFILE_USER,
+      page: () => const ProfileUserView(),
+      binding: ProfileUserBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATA_PELANGGAN,
+      page: () => const DataPelangganView(),
+      binding: DataPelangganBinding(),
+    ),
+    GetPage(
+      name: _Paths.DATA_RESERVASI,
+      page: () => const DataReservasiView(),
+      binding: DataReservasiBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORM_PESAN_MOBIL,
+      page: () => const FormPesanMobilView(),
+      binding: FormPesanMobilBinding(),
+    ),
+    GetPage(
+      name: _Paths.DASHBOARD_USER,
+      page: () => const DashboardUserView(),
+      binding: DashboardUserBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH_SCREEN,
+      page: () => const SplashScreenView(),
+      binding: SplashScreenBinding(),
     ),
   ];
 }

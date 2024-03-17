@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:az_travel/app/data/models/datamobilmodel.dart';
 import 'package:az_travel/app/utils/textfield.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -21,12 +21,14 @@ class FormMobilView extends GetView<FormMobilController> {
     final updateData =
         updateStatus == 'update' ? Get.arguments[1] as DataMobilModel : null;
     var fotoMobil = updateData!.fotoMobil!;
-    print(fotoMobil);
+    if (kDebugMode) {
+      print(fotoMobil);
+    }
     var defaultImage =
         "https://ui-avatars.com/api/?background=fff38a&color=5175c0&font-size=0.33&size=256";
 
     if (updateStatus == 'update') {
-      controller.namaMobilC.text = updateData!.namaMobil!;
+      controller.namaMobilC.text = updateData.namaMobil!;
       controller.merekC.text = updateData.merek!;
       controller.noPolisiC.text = updateData.noPolisi!;
       controller.hargaPerHariC.text = updateData.hargaPerHari!;
@@ -46,7 +48,9 @@ class FormMobilView extends GetView<FormMobilController> {
     return PopScope(
       onPopInvoked: (didPop) {
         controller.image = null;
-        print('back');
+        if (kDebugMode) {
+          print('back');
+        }
       },
       child: Scaffold(
         appBar: AppBar(
@@ -401,7 +405,7 @@ class FormMobilView extends GetView<FormMobilController> {
                       controller.tahunFormKey.value.currentState!.validate()) {
                     if (updateStatus == 'update') {
                       controller.editDataMobil(
-                        updateData!.id!,
+                        updateData.id!,
                         controller.namaMobilC.text,
                         controller.merekC.text,
                         controller.noPolisiC.text,
@@ -432,7 +436,7 @@ class FormMobilView extends GetView<FormMobilController> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.only(right: 5.w, left: 5.w),
-                    child: Center(child: const Text('Kirim')),
+                    child: const Center(child: Text('Kirim')),
                   ),
                 ),
               ),

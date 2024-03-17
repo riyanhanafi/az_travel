@@ -36,6 +36,8 @@ class FormMobilController extends GetxController {
   final normalValidator =
       MultiValidator([RequiredValidator(errorText: "Kolom harus diisi")]);
 
+  var context = Get.context!;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   FirebaseStorage storage = FirebaseStorage.instance;
   ImagePicker picker = ImagePicker();
@@ -89,27 +91,21 @@ class FormMobilController extends GetxController {
     } else if (storageStatus == PermissionStatus.denied) {
       Get.dialog(
         dialogAlertOnly(
-          onPressed: () async {
-            Get.back();
-          },
           animationLink: 'assets/lottie/warning_aztravel.json',
           text: "Terjadi Kesalahan!",
           textSub: "Akses ke penyimpanan ditolak!",
-          textAlert: getTextAlert(),
-          textAlertSub: getTextAlertSub(),
+          textAlert: getTextAlert(context),
+          textAlertSub: getTextAlertSub(context),
         ),
       );
     } else {
       Get.dialog(
         dialogAlertOnly(
-          onPressed: () async {
-            Get.back();
-          },
           animationLink: 'assets/lottie/warning_aztravel.json',
           text: "Terjadi Kesalahan!",
           textSub: "Akses ke penyimpanan ditolak! {err}",
-          textAlert: getTextAlert(),
-          textAlertSub: getTextAlertSub(),
+          textAlert: getTextAlert(context),
+          textAlertSub: getTextAlertSub(context),
         ),
       );
     }

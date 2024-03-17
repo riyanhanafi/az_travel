@@ -3,9 +3,11 @@
 import 'dart:developer';
 
 import 'package:az_travel/app/theme/textstyle.dart';
+import 'package:az_travel/app/utils/loading.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sizer/sizer.dart';
@@ -16,8 +18,6 @@ import '../utils/dialog.dart';
 
 class AuthController extends GetxController {
   var isAuth = false.obs;
-
-  var context = Get.context!;
 
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
@@ -35,11 +35,20 @@ class AuthController extends GetxController {
   //inisiasi model data user
   var userData = UserModel().obs;
 
-  // Stream<DocumentSnapshot<Map<String, dynamic>>> getUserRoles() async* {
-  //   var email = auth.currentUser!.email;
-  //   yield* firestore.collection("users").doc(email).snapshots();
-  // }
+  late Stream<UserModel> firestoreUserModel;
 
+  var buildContext = Get.context?.obs;
+
+  Stream<UserModel> getUserRoles() async* {
+    var email = auth.currentUser!.email;
+    yield* firestoreUserModel = firestore
+        .collection('users')
+        .doc(email)
+        .snapshots()
+        .map((documentSnapshot) => UserModel.fromJson(documentSnapshot));
+  }
+
+  // variabel reactive untuk text error form
   var errorStatusPass = false.obs;
   var errorTextPass = ''.obs;
   var errorStatusPassAgain = false.obs;
@@ -49,6 +58,33 @@ class AuthController extends GetxController {
   var errorStatusLoginPass = false.obs;
   var errorTextLoginPass = ''.obs;
 
+  Future<void> firstInitialized() async {
+    await autoLogin().then((value) {
+      if (value) {
+        isAuth.value = true;
+        firestoreUserModel = firestore
+            .collection('users')
+            .doc(auth.currentUser!.email)
+            .snapshots()
+            .map((documentSnapshot) => UserModel.fromJson(documentSnapshot));
+      }
+    });
+  }
+
+  Future<bool> autoLogin() async {
+    //auto login
+    try {
+      final isSignIn = auth.currentUser;
+      if (isSignIn != null) {
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  //membuat user
   Future<UserCredential> createUser(String email, String password) async {
     try {
       UserCredential userCredential = await auth.createUserWithEmailAndPassword(
@@ -63,6 +99,7 @@ class AuthController extends GetxController {
     }
   }
 
+  // register untuk membuat data user
   Future<void> register(
       String username,
       String email,
@@ -74,6 +111,7 @@ class AuthController extends GetxController {
       String alamat) async {
     try {
       log('step pertama');
+      var context = buildContext!.value;
       if (password != passwordAgain) {
         errorStatusPass.value = true;
         errorTextPass.value = 'Kata sandi harus sama!';
@@ -103,6 +141,7 @@ class AuthController extends GetxController {
         await userData.doc(email).set({
           "uid": uid,
           "photoUrl": '',
+          "roles": 'user',
           "email": email,
           "noKTP": noKTP,
           "username": username,
@@ -117,15 +156,12 @@ class AuthController extends GetxController {
 
         await Get.dialog(
           dialogAlertOnly(
-            onPressed: () async {
-              Get.back();
-            },
             animationLink: 'assets/lottie/finish_aztravel.json',
             text: "Berhasil!",
             textSub:
                 "Akun berhasil dibuat. Silahkan masuk dan verifikasi akun anda.",
-            textAlert: getTextAlert(),
-            textAlertSub: getTextAlertSub(),
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
           ),
         );
 
@@ -133,14 +169,11 @@ class AuthController extends GetxController {
       } else {
         Get.dialog(
           dialogAlertOnly(
-            onPressed: () async {
-              Get.back();
-            },
             animationLink: 'assets/lottie/warning_aztravel.json',
             text: "Terjadi Kesalahan!",
             textSub: "Akun sudah ada dan pernah dibuat.",
-            textAlert: getTextAlert(),
-            textAlertSub: getTextAlertSub(),
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
           ),
         );
       }
@@ -151,13 +184,50 @@ class AuthController extends GetxController {
     }
   }
 
+  Future<UserModel> readUser() async {
+    var users = firestore.collection('users');
+    String emailUser = auth.currentUser!.email.toString();
+    final checkuser = await users.doc(emailUser).get();
+
+    final checkUserData = checkuser.data() as Map<String, dynamic>;
+
+    userData.value = (UserModel(
+      uid: auth.currentUser!.uid,
+      photoUrl: checkUserData['photoUrl'],
+      email: auth.currentUser!.email,
+      roles: checkUserData['roles'],
+      noKTP: checkUserData['noKTP'],
+      username: checkUserData['username'],
+      namaLengkap: checkUserData['namaLengkap'],
+      nomorTelepon: checkUserData['nomorTelepon'],
+      alamat: checkUserData['alamat'],
+    ));
+
+    return userData.value;
+  }
+
   void login(String email, String password) async {
     try {
+      var context = buildContext!.value;
       UserCredential myUser = await auth.signInWithEmailAndPassword(
           email: email, password: password);
 
       if (myUser.user!.emailVerified) {
         isAuth.value = true;
+        await readUser();
+
+        Get.dialog(
+          dialogAlertOnly(
+            animationLink: 'assets/lottie/loading_aztravel.json',
+            text: "Memuat...",
+            textSub: "",
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
+          ),
+        );
+
+        await simulateDelay();
+        Get.back();
 
         await Get.offAllNamed(Routes.HOME);
       } else {
@@ -179,9 +249,9 @@ class AuthController extends GetxController {
                   textBtn: "OK",
                   text: "Email Sukses Terkirim!",
                   textSub: "Cek inbox email Anda",
-                  textAlert: getTextAlert(),
-                  textAlertSub: getTextAlertSub(),
-                  textAlertBtn: getTextAlertBtn(),
+                  textAlert: getTextAlert(context),
+                  textAlertSub: getTextAlertSub(context),
+                  textAlertBtn: getTextAlertBtn(context),
                 ),
               );
             },
@@ -190,27 +260,25 @@ class AuthController extends GetxController {
             textBtn: "Kirim",
             text: "Email Belum Diverifikasi!",
             textSub: "klik tombol Kirim untuk mengirim email verifikasi",
-            textAlert: getTextAlert(),
-            textAlertSub: getTextAlertSub(),
-            textAlertBtn: getTextAlertBtn(),
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
+            textAlertBtn: getTextAlertBtn(context),
           ),
         );
       }
     } on FirebaseAuthException catch (e) {
+      var context = buildContext!.value;
       if (e.code == 'user-not-found') {
         if (kDebugMode) {
           print('No user found for that email.');
         }
         Get.dialog(
           dialogAlertOnly(
-            onPressed: () async {
-              Get.back();
-            },
             animationLink: 'assets/lottie/warning_aztravel.json',
             text: "Terjadi Kesalahan!",
             textSub: "Akun tidak ditemukan.",
-            textAlert: getTextAlert(),
-            textAlertSub: getTextAlertSub(),
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
           ),
         );
       } else if (e.code == 'wrong-password') {
@@ -231,37 +299,33 @@ class AuthController extends GetxController {
         }
         Get.dialog(
           dialogAlertOnly(
-            onPressed: () async {
-              Get.back();
-            },
             animationLink: 'assets/lottie/warning_aztravel.json',
             text: "Terjadi Kesalahan!",
             textSub: "Periksa isian form anda.",
-            textAlert: getTextAlert(),
-            textAlertSub: getTextAlertSub(),
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
           ),
         );
       }
     } catch (e) {
+      var context = buildContext!.value;
       if (kDebugMode) {
         print(e);
       }
       Get.dialog(
         dialogAlertOnly(
-          onPressed: () async {
-            Get.back();
-          },
           animationLink: 'assets/lottie/warning_aztravel.json',
           text: "Terjadi Kesalahan!",
           textSub: "Tidak dapat masuk.",
-          textAlert: getTextAlert(),
-          textAlertSub: getTextAlertSub(),
+          textAlert: getTextAlert(context),
+          textAlertSub: getTextAlertSub(context),
         ),
       );
     }
   }
 
   Future signInGoogle() async {
+    var context = buildContext!.value;
     await _googleSignIn.signOut();
 
     _currentUser =
@@ -288,20 +352,72 @@ class AuthController extends GetxController {
 
       String emailUser = auth.currentUser!.email.toString();
 
-      users.doc(emailUser).set({
-        "uid": auth.currentUser!.uid,
-        "photoUrl": _currentUser!.photoUrl ?? '',
-        "email": emailUser,
-        "noKTP": '',
-        "username": _currentUser!.displayName ?? '',
-        "namaLengkap": '',
-        "nomorTelepon": '',
-        "alamat": '',
-      });
+      final docRef = users.doc(emailUser);
+      final checkData = await docRef.get();
 
-      isAuth.value = true;
+      if (checkData.exists == false) {
+        users.doc(emailUser).set({
+          "uid": auth.currentUser!.uid,
+          "photoUrl": _currentUser!.photoUrl ?? '',
+          "email": emailUser,
+          "roles": 'user',
+          "noKTP": '',
+          "username": _currentUser!.displayName ?? '',
+          "namaLengkap": '',
+          "nomorTelepon": '',
+          "alamat": '',
+        });
 
-      await Get.offAllNamed(Routes.HOME);
+        isAuth.value = true;
+
+        await readUser();
+
+        if (kDebugMode) {
+          print("ROLES GUA APA? ROLES GUA ADLAAH : ${userData.value.roles}");
+        }
+
+        Get.dialog(
+          dialogAlertOnly(
+            animationLink: 'assets/lottie/loading_aztravel.json',
+            text: "Memuat...",
+            textSub: "",
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
+          ),
+        );
+
+        await simulateDelay();
+        Get.back();
+
+        await Get.offAllNamed(Routes.HOME);
+      } else {
+        users.doc(emailUser).update({
+          "uid": auth.currentUser!.uid,
+          "photoUrl": _currentUser!.photoUrl ?? '',
+          "username": _currentUser!.displayName ?? '',
+        });
+        isAuth.value = true;
+
+        await readUser();
+
+        if (kDebugMode) {
+          print("ROLES GUA APA? ROLES GUA ADLAAH : ${userData.value.roles}");
+        }
+        Get.dialog(
+          dialogAlertOnly(
+            animationLink: 'assets/lottie/loading_aztravel.json',
+            text: "Memuat...",
+            textSub: "",
+            textAlert: getTextAlert(context),
+            textAlertSub: getTextAlertSub(context),
+          ),
+        );
+
+        await simulateDelay();
+        Get.back();
+
+        await Get.offAllNamed(Routes.HOME);
+      }
     }
   }
 

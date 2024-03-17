@@ -81,7 +81,6 @@ Widget dialogAlertBtn(
 }
 
 Widget dialogAlertOnly({
-  required VoidCallback onPressed,
   required String animationLink,
   required String text,
   required String? textSub,

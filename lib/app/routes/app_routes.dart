@@ -14,6 +14,12 @@ abstract class Routes {
   static const PROCESS = _Paths.PROCESS;
   static const PROFILE = _Paths.PROFILE;
   static const FORM_MOBIL = _Paths.FORM_MOBIL;
+  static const PROFILE_USER = _Paths.PROFILE_USER;
+  static const DATA_PELANGGAN = _Paths.DATA_PELANGGAN;
+  static const DATA_RESERVASI = _Paths.DATA_RESERVASI;
+  static const FORM_PESAN_MOBIL = _Paths.FORM_PESAN_MOBIL;
+  static const DASHBOARD_USER = _Paths.DASHBOARD_USER;
+  static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
 }
 
 abstract class _Paths {
@@ -27,4 +33,10 @@ abstract class _Paths {
   static const PROCESS = '/process';
   static const PROFILE = '/profile';
   static const FORM_MOBIL = '/form-mobil';
+  static const PROFILE_USER = '/profile-user';
+  static const DATA_PELANGGAN = '/data-pelanggan';
+  static const DATA_RESERVASI = '/data-reservasi';
+  static const FORM_PESAN_MOBIL = '/form-pesan-mobil';
+  static const DASHBOARD_USER = '/dashboard-user';
+  static const SPLASH_SCREEN = '/splash-screen';
 }

@@ -6,7 +6,8 @@ import 'textstyle.dart';
 Widget btnItem(
     {required String textBtn,
     required IconData icon,
-    required void Function()? onTap}) {
+    required void Function()? onTap,
+    required BuildContext context}) {
   return InkWell(
     onTap: onTap,
     child: Column(
@@ -21,7 +22,7 @@ Widget btnItem(
         Text(
           textBtn,
           textAlign: TextAlign.center,
-          style: getTextAlertSub(),
+          style: getTextAlertSub(context),
         )
       ],
     ),

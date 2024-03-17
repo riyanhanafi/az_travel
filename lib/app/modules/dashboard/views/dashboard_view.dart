@@ -29,6 +29,7 @@ class DashboardView extends GetView<DashboardController> {
             children: [
               const Text('Data Mobil'),
               btnItem(
+                  context: context,
                   textBtn: "Tambah",
                   icon: PhosphorIconsBold.plus,
                   onTap: () {
@@ -45,11 +46,11 @@ class DashboardView extends GetView<DashboardController> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(PhosphorIconsBold.plus),
+            const Icon(PhosphorIconsBold.plus),
             Text(
               'Tambah',
               textAlign: TextAlign.center,
-              style: getTextAlertSub(),
+              style: getTextAlertSub(context),
             )
           ],
         ),
@@ -131,6 +132,7 @@ class DashboardView extends GetView<DashboardController> {
                                     Row(
                                       children: [
                                         btnItem(
+                                            context: context,
                                             textBtn: "Hapus",
                                             icon: PhosphorIconsBold.trash,
                                             onTap: () {
@@ -156,6 +158,7 @@ class DashboardView extends GetView<DashboardController> {
                                           width: 5.w,
                                         ),
                                         btnItem(
+                                            context: context,
                                             textBtn: "Edit",
                                             icon: PhosphorIconsBold.pencil,
                                             onTap: () {

@@ -3,19 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
-var context = Get.context!;
-
-getTextAlert() {
+getTextAlert(BuildContext context) {
   return TextStyle(
       color: Theme.of(context).textTheme.titleMedium!.color, fontSize: 12.sp);
 }
 
-getTextAlertSub() {
+getTextAlertSub(BuildContext context) {
   return TextStyle(
       color: Theme.of(context).textTheme.titleMedium!.color, fontSize: 8.sp);
 }
 
-getTextAlertBtn() {
+getTextAlertBtn(BuildContext context) {
   return TextStyle(
       color: Theme.of(context).textTheme.titleMedium!.color, fontSize: 10.sp);
 }
@@ -32,7 +30,7 @@ getTextErrorFormLogin() {
   );
 }
 
-getTextUnderBtn() {
+getTextUnderBtn(BuildContext context) {
   return TextStyle(
     color: Theme.of(context).textTheme.titleMedium!.color,
     fontSize: 8.sp,
