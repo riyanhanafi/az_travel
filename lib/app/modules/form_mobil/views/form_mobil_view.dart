@@ -20,21 +20,23 @@ class FormMobilView extends GetView<FormMobilController> {
     final updateStatus = Get.arguments[0];
     final updateData =
         updateStatus == 'update' ? Get.arguments[1] as DataMobilModel : null;
-    var fotoMobil = updateData!.fotoMobil!;
-    if (kDebugMode) {
-      print(fotoMobil);
-    }
+    String? fotoMobil = '';
+
     var defaultImage =
         "https://ui-avatars.com/api/?background=fff38a&color=5175c0&font-size=0.33&size=256";
 
     if (updateStatus == 'update') {
-      controller.namaMobilC.text = updateData.namaMobil!;
+      controller.namaMobilC.text = updateData!.namaMobil!;
       controller.merekC.text = updateData.merek!;
       controller.noPolisiC.text = updateData.noPolisi!;
       controller.hargaPerHariC.text = updateData.hargaPerHari!;
       controller.tipeBahanBakarC.text = updateData.tipeBahanBakar!;
       controller.tahunC.text = updateData.tahun!;
       controller.deskripsiC.text = updateData.deskripsi!;
+      fotoMobil = updateData.fotoMobil!;
+      if (kDebugMode) {
+        print(' FOto MOBIL GES $fotoMobil');
+      }
     } else if (updateStatus == 'create') {
       controller.namaMobilC.text = '';
       controller.merekC.text = '';
@@ -43,6 +45,7 @@ class FormMobilView extends GetView<FormMobilController> {
       controller.tipeBahanBakarC.text = '';
       controller.tahunC.text = '';
       controller.deskripsiC.text = '';
+      fotoMobil = '';
     }
 
     return PopScope(
@@ -373,7 +376,7 @@ class FormMobilView extends GetView<FormMobilController> {
                                         borderRadius: BorderRadius.circular(25),
                                       ),
                                       child: Image.network(
-                                        fotoMobil != ''
+                                        fotoMobil! != ''
                                             ? fotoMobil
                                             : defaultImage,
                                       ),
@@ -405,7 +408,7 @@ class FormMobilView extends GetView<FormMobilController> {
                       controller.tahunFormKey.value.currentState!.validate()) {
                     if (updateStatus == 'update') {
                       controller.editDataMobil(
-                        updateData.id!,
+                        updateData!.id!,
                         controller.namaMobilC.text,
                         controller.merekC.text,
                         controller.noPolisiC.text,

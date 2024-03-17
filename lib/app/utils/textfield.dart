@@ -317,19 +317,22 @@ Widget formPassAgainRegister({
   );
 }
 
-Widget formInput({
-  required Key key,
-  required TextEditingController textEditingController,
-  required String hintText,
-  required IconData iconPrefix,
-  required TextInputType? keyboardType,
-  required String? Function(String?)? validator,
-}) {
+Widget formInput(
+    {required Key key,
+    required TextEditingController textEditingController,
+    required String hintText,
+    required IconData iconPrefix,
+    required TextInputType? keyboardType,
+    required String? Function(String?)? validator,
+    double? width,
+    double? height,
+    double? hintTextFontSize}) {
   FocusScopeNode currentFocus = FocusScope.of(Get.context!);
   return Form(
     key: key,
     child: SizedBox(
-      height: 10.h,
+      height: height ?? 10.h,
+      width: width,
       child: TextFormField(
         controller: textEditingController,
         keyboardType: keyboardType,
@@ -347,7 +350,7 @@ Widget formInput({
         decoration: InputDecoration(
           hintText: hintText,
           hintStyle: Theme.of(Get.context!).textTheme.displaySmall!.copyWith(
-                fontSize: 12.sp,
+                fontSize: hintTextFontSize ?? 12.sp,
               ),
           isDense: true,
           contentPadding: const EdgeInsets.all(5),

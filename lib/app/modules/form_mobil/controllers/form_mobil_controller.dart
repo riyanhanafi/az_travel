@@ -180,17 +180,34 @@ class FormMobilController extends GetxController {
       var dataMobilReference = firestore.collection('DataMobil');
       final docRef = dataMobilReference.doc(id);
 
-      await docRef.update({
-        'id': docRef.id,
-        'namaMobil': namaMobil,
-        'merek': merek,
-        'noPolisi': noPolisi,
-        'hargaPerHari': hargaPerHari,
-        'tipeBahanBakar': tipeBahanBakar,
-        'tahun': tahun,
-        'fotoMobil': '',
-        'deskripsi': deskripsi
-      });
+      if (image != null) {
+        File file = File(image!.path);
+        String ext = image!.name.split(".").last;
+
+        await storage.ref('datamobil/${docRef.id}.$ext').putFile(file);
+        String urlImage =
+            await storage.ref('datamobil/${docRef.id}.$ext').getDownloadURL();
+        await docRef.update({
+          'namaMobil': namaMobil,
+          'merek': merek,
+          'noPolisi': noPolisi,
+          'hargaPerHari': hargaPerHari,
+          'tipeBahanBakar': tipeBahanBakar,
+          'tahun': tahun,
+          'fotoMobil': urlImage,
+          'deskripsi': deskripsi
+        });
+      } else {
+        await docRef.update({
+          'namaMobil': namaMobil,
+          'merek': merek,
+          'noPolisi': noPolisi,
+          'hargaPerHari': hargaPerHari,
+          'tipeBahanBakar': tipeBahanBakar,
+          'tahun': tahun,
+          'deskripsi': deskripsi
+        });
+      }
 
       Get.defaultDialog(
         title: "Berhasil",

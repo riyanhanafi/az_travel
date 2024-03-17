@@ -1,4 +1,5 @@
 import 'package:az_travel/app/theme/theme.dart';
+import 'package:az_travel/app/utils/loading.dart';
 import 'package:az_travel/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class AZTravelApp extends StatelessWidget {
           if (snap.connectionState == ConnectionState.done) {
             return Sizer(builder: (context, orientation, deviceType) {
               return FutureBuilder(
-                  future: Future.delayed(const Duration(seconds: 2)),
+                  future: simulateDelay(),
                   builder: (context, snap) {
                     var authC = Get.put(AuthController());
                     if (snap.connectionState == ConnectionState.done) {

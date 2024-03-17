@@ -143,12 +143,8 @@ class HomeView extends GetView<HomeController> {
                                       'Beranda',
                                       0,
                                       controller.cAniDashboardUser),
-                                  navBarItem2(
-                                      context,
-                                      PhosphorIconsLight.house,
-                                      'Reservasi',
-                                      1,
-                                      controller.cAniProfileUser),
+                                  navBarItem2(context, PhosphorIconsLight.user,
+                                      'Profil', 1, controller.cAniProfileUser),
                                 ],
                               ),
                             ),
@@ -215,7 +211,7 @@ class HomeView extends GetView<HomeController> {
             height: 81,
             child: Obx(
               () => Padding(
-                padding: EdgeInsets.only(top: 1.4.h),
+                padding: EdgeInsets.only(top: 1.8.h),
                 child: SizedBox(
                   width: 20.w,
                   child: Column(
@@ -283,7 +279,7 @@ class HomeView extends GetView<HomeController> {
             height: 81,
             child: Obx(
               () => Padding(
-                padding: EdgeInsets.only(top: 1.4.h),
+                padding: EdgeInsets.only(top: 2.h),
                 child: SizedBox(
                   width: 20.w,
                   child: Column(

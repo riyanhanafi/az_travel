@@ -20,6 +20,7 @@ abstract class Routes {
   static const FORM_PESAN_MOBIL = _Paths.FORM_PESAN_MOBIL;
   static const DASHBOARD_USER = _Paths.DASHBOARD_USER;
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
+  static const DETAIL_MOBIL = _Paths.DETAIL_MOBIL;
 }
 
 abstract class _Paths {
@@ -39,4 +40,5 @@ abstract class _Paths {
   static const FORM_PESAN_MOBIL = '/form-pesan-mobil';
   static const DASHBOARD_USER = '/dashboard-user';
   static const SPLASH_SCREEN = '/splash-screen';
+  static const DETAIL_MOBIL = '/detail-mobil';
 }
