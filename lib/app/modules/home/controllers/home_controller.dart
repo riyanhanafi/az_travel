@@ -1,4 +1,3 @@
-import 'package:az_travel/app/data/models/usermodel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

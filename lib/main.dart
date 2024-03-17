@@ -1,6 +1,5 @@
 import 'package:az_travel/app/theme/theme.dart';
 import 'package:az_travel/firebase_options.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,6 @@ import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
 import 'app/controller/auth_controller.dart';
-import 'app/data/models/usermodel.dart';
 import 'app/modules/splash_screen/views/splash_screen_view.dart';
 import 'app/routes/app_pages.dart';
 import 'app/theme/textstyle.dart';

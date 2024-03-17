@@ -5,7 +5,6 @@ import 'package:az_travel/app/modules/data_reservasi/views/data_reservasi_view.d
 import 'package:az_travel/app/modules/profile_user/views/profile_user_view.dart';
 import 'package:az_travel/app/utils/dialog.dart';
 import 'package:az_travel/app/utils/loading.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
