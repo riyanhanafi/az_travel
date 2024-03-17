@@ -12,7 +12,11 @@
 .dart_tool/flutter_build/b3e022d6d371d2f78cb63d0586747643/native_assets.yaml
 .dart_tool/flutter_build/b3e022d6d371d2f78cb63d0586747643/outputs.json
 build/
+.dart_tool/
 .flutter-plugins-dependencies
 .flutter-plugins-dependencies
 .flutter-plugins
 .flutter-plugins-dependencies
+.dart_tool/package_config.json
+.dart_tool/package_config.json
+.dart_tool/package_config.json
