@@ -6,6 +6,7 @@ import 'package:az_travel/app/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -66,6 +67,7 @@ class DashboardView extends GetView<DashboardController> {
                   return const Center(child: CircularProgressIndicator());
                 }
                 final dataMobilList = snap.data!;
+
                 if (dataMobilList.isEmpty) {
                   return const Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -85,6 +87,9 @@ class DashboardView extends GetView<DashboardController> {
                   itemCount: dataMobilList.length,
                   itemBuilder: (context, index) {
                     var dataMobil = dataMobilList[index];
+                    final formatCurrency = NumberFormat.simpleCurrency(
+                        locale: 'id_ID', decimalDigits: 0);
+                    int hargaPerHariIDR = int.parse(dataMobil.hargaPerHari!);
                     return Padding(
                       padding:
                           EdgeInsets.only(bottom: 2.h, right: 5.w, left: 5.w),
@@ -176,7 +181,7 @@ class DashboardView extends GetView<DashboardController> {
                                     Text(
                                         'Tahun Kendaraan : ${dataMobil.tahun}'),
                                     Text(
-                                        'Harga/Hari : Rp. ${dataMobil.hargaPerHari}'),
+                                        'Harga/Hari : Rp. ${formatCurrency.format(hargaPerHariIDR)}'),
                                   ],
                                 ),
                               ],

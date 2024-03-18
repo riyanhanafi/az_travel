@@ -4,6 +4,7 @@ import 'package:az_travel/app/utils/textfield.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
 
@@ -195,6 +196,11 @@ class DashboardUserView extends GetView<DashboardUserController> {
                               }
 
                               var dataMobil = dataMobilList[index];
+                              final formatCurrency =
+                                  NumberFormat.simpleCurrency(
+                                      locale: 'id_ID', decimalDigits: 0);
+                              int hargaPerHariIDR =
+                                  int.parse(dataMobil.hargaPerHari!);
                               return AnimatedBuilder(
                                 animation: c.cAniDashboardCategories[index]!,
                                 builder: (context, child) {
@@ -301,7 +307,7 @@ class DashboardUserView extends GetView<DashboardUserController> {
                                                         height: 0.5.h,
                                                       ),
                                                       Text(
-                                                        'Rp. ${dataMobil.hargaPerHari!}',
+                                                        '${formatCurrency.format(hargaPerHariIDR)}/hari',
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .displayMedium!
