@@ -1,6 +1,7 @@
 import 'package:az_travel/app/theme/textstyle.dart';
 import 'package:az_travel/app/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:sizer/sizer.dart';
@@ -326,7 +327,12 @@ Widget formInput(
     required String? Function(String?)? validator,
     double? width,
     double? height,
-    double? hintTextFontSize}) {
+    double? hintTextFontSize,
+    bool? readOnly,
+    required bool isDatePicker,
+    void Function()? onPressedDatePicker,
+    List<TextInputFormatter>? inputFormatters,
+    int? maxLength}) {
   FocusScopeNode currentFocus = FocusScope.of(Get.context!);
   return Form(
     key: key,
@@ -337,11 +343,14 @@ Widget formInput(
         controller: textEditingController,
         keyboardType: keyboardType,
         validator: validator,
+        maxLength: maxLength,
+        inputFormatters: inputFormatters,
         onTap: () {
           // if (!currentFocus.hasPrimaryFocus) {
           //   currentFocus.unfocus();
           // }
         },
+        readOnly: readOnly ?? false,
         onTapOutside: (event) {
           if (!currentFocus.hasPrimaryFocus) {
             currentFocus.unfocus();
@@ -369,6 +378,19 @@ Widget formInput(
               ),
             ),
           ),
+          suffixIcon: isDatePicker
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    right: 0.35.w,
+                  ),
+                  child: IconButton(
+                    splashRadius: 1,
+                    iconSize: 18,
+                    icon: const Icon(PhosphorIconsFill.calendar),
+                    onPressed: onPressedDatePicker,
+                  ),
+                )
+              : null,
           filled: true,
           fillColor: Theme.of(Get.context!).cardColor,
           border: OutlineInputBorder(

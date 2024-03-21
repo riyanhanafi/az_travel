@@ -39,7 +39,7 @@ class AuthController extends GetxController {
 
   var buildContext = Get.context?.obs;
 
-  Stream<UserModel> getUserRoles() async* {
+  Stream<UserModel> getUserData() async* {
     var email = auth.currentUser!.email;
     yield* firestoreUserModel = firestore
         .collection('users')

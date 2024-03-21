@@ -67,7 +67,8 @@ class DashboardUserView extends GetView<DashboardUserController> {
                                 hintText: 'Cari dan Pesan Mobil...',
                                 iconPrefix: PhosphorIconsBold.magnifyingGlass,
                                 keyboardType: TextInputType.text,
-                                validator: null),
+                                validator: null,
+                                isDatePicker: false),
                             Row(
                               children: [
                                 InkWell(
@@ -119,7 +120,8 @@ class DashboardUserView extends GetView<DashboardUserController> {
                                 hintText: 'Cari dan Pesan Mobil...',
                                 iconPrefix: PhosphorIconsBold.magnifyingGlass,
                                 keyboardType: TextInputType.text,
-                                validator: null),
+                                validator: null,
+                                isDatePicker: false),
                           ],
                         ),
                         Column(

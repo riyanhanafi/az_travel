@@ -4,6 +4,7 @@ import 'package:az_travel/app/data/models/datamobilmodel.dart';
 import 'package:az_travel/app/utils/textfield.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -75,6 +76,7 @@ class FormMobilView extends GetView<FormMobilController> {
                       iconPrefix: PhosphorIconsBold.car,
                       keyboardType: TextInputType.name,
                       validator: controller.normalValidator,
+                      isDatePicker: false,
                     ),
                     const SizedBox(
                       height: 1,
@@ -86,6 +88,7 @@ class FormMobilView extends GetView<FormMobilController> {
                       iconPrefix: PhosphorIconsBold.brandy,
                       keyboardType: TextInputType.name,
                       validator: controller.normalValidator,
+                      isDatePicker: false,
                     ),
                     const SizedBox(
                       height: 1,
@@ -96,7 +99,9 @@ class FormMobilView extends GetView<FormMobilController> {
                       hintText: 'Nomor Polisi',
                       iconPrefix: PhosphorIconsBold.numberCircleFour,
                       keyboardType: TextInputType.text,
+                      maxLength: 12,
                       validator: controller.normalValidator,
+                      isDatePicker: false,
                     ),
                     const SizedBox(
                       height: 1,
@@ -107,7 +112,10 @@ class FormMobilView extends GetView<FormMobilController> {
                       hintText: 'Harga per Hari',
                       iconPrefix: PhosphorIconsBold.currencyDollarSimple,
                       keyboardType: TextInputType.number,
+                      maxLength: 8,
                       validator: controller.normalValidator,
+                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                      isDatePicker: false,
                     ),
                     const SizedBox(
                       height: 1,
@@ -119,6 +127,7 @@ class FormMobilView extends GetView<FormMobilController> {
                       iconPrefix: PhosphorIconsBold.engine,
                       keyboardType: TextInputType.name,
                       validator: controller.normalValidator,
+                      isDatePicker: false,
                     ),
                     const SizedBox(
                       height: 1,
@@ -130,6 +139,7 @@ class FormMobilView extends GetView<FormMobilController> {
                       iconPrefix: PhosphorIconsBold.calendar,
                       keyboardType: TextInputType.number,
                       validator: controller.normalValidator,
+                      isDatePicker: false,
                     ),
                     const SizedBox(
                       height: 1,

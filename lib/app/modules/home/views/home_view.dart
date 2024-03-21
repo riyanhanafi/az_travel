@@ -33,7 +33,7 @@ class HomeView extends GetView<HomeController> {
             return const LoadingView();
           }
           return StreamBuilder<UserModel>(
-              stream: authC.getUserRoles(),
+              stream: authC.getUserData(),
               builder: (context, snap) {
                 if (snap.hasData) {
                   if (snap.data == null) {

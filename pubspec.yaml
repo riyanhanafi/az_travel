@@ -26,6 +26,7 @@ dependencies:
   permission_handler: ^11.3.0
   phosphor_flutter: ^2.0.1
   sizer: ^2.0.15
+  syncfusion_flutter_datepicker: ^20.4.52
 
 dev_dependencies:
   flutter_lints: ^2.0.0

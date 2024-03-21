@@ -50,7 +50,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(left: 5.w, top: 5.h, right: 5.w),
+                    padding: EdgeInsets.only(left: 5.w, top: 8.h, right: 5.w),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -185,7 +185,8 @@ class DetailMobilView extends GetView<DetailMobilController> {
                     Center(
                       child: InkWell(
                         onTap: () {
-                          Get.toNamed(Routes.FORM_PESAN_MOBIL);
+                          Get.toNamed(Routes.FORM_PESAN_MOBIL,
+                              arguments: dataMobil);
                         },
                         child: Container(
                           height: 6.h,
