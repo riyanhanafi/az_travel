@@ -91,6 +91,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               dataMobil.namaMobil!,
@@ -98,7 +99,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                                   .textTheme
                                   .titleMedium!
                                   .copyWith(
-                                    fontSize: 24.sp,
+                                    fontSize: 16.sp,
                                   ),
                             ),
                             Text(
@@ -107,7 +108,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                                   .textTheme
                                   .displayMedium!
                                   .copyWith(
-                                    fontSize: 16.sp,
+                                    fontSize: 12.sp,
                                   ),
                             ),
                           ],

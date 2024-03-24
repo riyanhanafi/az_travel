@@ -1,5 +1,7 @@
 // ignore_for_file: unnecessary_overrides
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
@@ -21,18 +23,71 @@ class FormPesanMobilController extends GetxController {
   final normalValidator =
       MultiValidator([RequiredValidator(errorText: "Kolom harus diisi")]);
 
-  final selectedDate = DateTime.now().obs;
+  DateTime? start;
+  final end = DateTime.now().obs;
   final dateFormatter = DateFormat('d MMMM yyyy', 'id-ID');
   final dateFormatterDefault = DateFormat('yyyy-MM-dd');
-  var datePesan = ''.obs;
+  var dateRange = 0.obs;
+  var datePesanStart = ''.obs;
+  var datePesanEnd = ''.obs;
 
   DateRangePickerController datePesanController = DateRangePickerController();
 
-  void selectDatePesan(DateRangePickerSelectionChangedArgs args) {
-    selectedDate.value = args.value;
-    final dateFormatted = dateFormatter.format(selectedDate.value);
-    datePesan.value = dateFormatterDefault.format(selectedDate.value);
-    datePesanFormPesanC.text = dateFormatted.toString();
+  void selectDatePesan(DateTime pickStart, DateTime pickEnd) {
+    start = pickStart;
+    end.value = pickEnd;
+    update();
+    var startFormatted = dateFormatter.format(start!);
+    var endFormatted = dateFormatter.format(end.value);
+    datePesanStart.value = dateFormatterDefault.format(start!);
+    datePesanEnd.value = dateFormatterDefault.format(end.value);
+    dateRange.value = end.value.difference(start!).inDays + 1;
+    print('DateRange COY : ${dateRange.value}');
+    update();
+    datePesanFormPesanC.text = '$startFormatted - $endFormatted';
+  }
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  void pesanMobil(
+    String idMobil,
+    String harga,
+    String namaMobil,
+    String namaPemesan,
+    String noKTPPemesan,
+    String noTelpPemesan,
+    String alamatPemesan,
+  ) async {
+    try {
+      var pesananMobilReference = firestore.collection('PesananMobil');
+      final docRef = pesananMobilReference.doc();
+      await docRef.set({
+        'id': docRef.id,
+        'idMobil': idMobil,
+        'harga': harga,
+        'namaMobil': namaMobil,
+        'namaPemesan': namaPemesan,
+        'noKTPPemesan': noKTPPemesan,
+        'noTelpPemesan': noTelpPemesan,
+        'alamatPemesan': alamatPemesan,
+        'tanggalPesanStart': datePesanStart.value,
+        'tanggalPesanEnd': datePesanEnd.value,
+      });
+      Get.defaultDialog(
+        title: "Berhasil",
+        middleText: "Pesanan berhasil dikirim.",
+        textConfirm: 'Ya',
+        onConfirm: () {
+          Get.back();
+          Get.back();
+        },
+      );
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+      Get.snackbar("Error", "Pesanan tidak berhasil dikirim.");
+    }
   }
 
   @override
