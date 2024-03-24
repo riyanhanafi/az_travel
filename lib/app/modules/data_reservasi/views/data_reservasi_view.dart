@@ -23,7 +23,7 @@ class DataReservasiView extends GetView<DataReservasiController> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: StreamBuilder(
             stream: c.firestorePesananMobillList,
             builder: (context, snap) {

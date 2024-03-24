@@ -10,6 +10,8 @@ import '../modules/data_reservasi/bindings/data_reservasi_binding.dart';
 import '../modules/data_reservasi/views/data_reservasi_view.dart';
 import '../modules/detail_mobil/bindings/detail_mobil_binding.dart';
 import '../modules/detail_mobil/views/detail_mobil_view.dart';
+import '../modules/detail_pelanggan/bindings/detail_pelanggan_binding.dart';
+import '../modules/detail_pelanggan/views/detail_pelanggan_view.dart';
 import '../modules/form_mobil/bindings/form_mobil_binding.dart';
 import '../modules/form_mobil/views/form_mobil_view.dart';
 import '../modules/form_pesan_mobil/bindings/form_pesan_mobil_binding.dart';
@@ -115,6 +117,11 @@ class AppPages {
       name: _Paths.DETAIL_MOBIL,
       page: () => const DetailMobilView(),
       binding: DetailMobilBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL_PELANGGAN,
+      page: () => const DetailPelangganView(),
+      binding: DetailPelangganBinding(),
     ),
   ];
 }

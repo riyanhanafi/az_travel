@@ -21,6 +21,7 @@ abstract class Routes {
   static const DASHBOARD_USER = _Paths.DASHBOARD_USER;
   static const SPLASH_SCREEN = _Paths.SPLASH_SCREEN;
   static const DETAIL_MOBIL = _Paths.DETAIL_MOBIL;
+  static const DETAIL_PELANGGAN = _Paths.DETAIL_PELANGGAN;
 }
 
 abstract class _Paths {
@@ -41,4 +42,5 @@ abstract class _Paths {
   static const DASHBOARD_USER = '/dashboard-user';
   static const SPLASH_SCREEN = '/splash-screen';
   static const DETAIL_MOBIL = '/detail-mobil';
+  static const DETAIL_PELANGGAN = '/detail-pelanggan';
 }
