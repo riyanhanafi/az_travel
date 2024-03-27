@@ -31,6 +31,8 @@ class FormPesanMobilController extends GetxController {
   var datePesanStart = ''.obs;
   var datePesanEnd = ''.obs;
 
+  var hargaPerHariCalculated = 0.obs;
+
   DateRangePickerController datePesanController = DateRangePickerController();
 
   void selectDatePesan(DateTime pickStart, DateTime pickEnd) {
@@ -59,6 +61,7 @@ class FormPesanMobilController extends GetxController {
     String alamatPemesan,
   ) async {
     try {
+      print('Harga Mobil Total : $harga');
       var pesananMobilReference = firestore.collection('PesananMobil');
       final docRef = pesananMobilReference.doc();
       await docRef.set({

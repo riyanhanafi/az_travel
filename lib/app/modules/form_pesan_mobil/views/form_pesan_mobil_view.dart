@@ -26,9 +26,7 @@ class FormPesanMobilView extends GetView<FormPesanMobilController> {
     final formatCurrency =
         NumberFormat.simpleCurrency(locale: 'id_ID', decimalDigits: 0);
     int hargaPerHariIDR = int.parse(dataMobil.hargaPerHari!);
-    int hargaPerHariCalculated = c.dateRange.value == 0
-        ? hargaPerHariIDR
-        : hargaPerHariIDR * c.dateRange.value;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pesan dan Bayar Mobil'),
@@ -257,6 +255,11 @@ class FormPesanMobilView extends GetView<FormPesanMobilController> {
                               Center(
                                 child: InkWell(
                                   onTap: () {
+                                    c.hargaPerHariCalculated.value =
+                                        c.dateRange.value == 0
+                                            ? hargaPerHariIDR
+                                            : hargaPerHariIDR *
+                                                c.dateRange.value;
                                     if (c.namaLengkapFormPesanKey.value
                                             .currentState!
                                             .validate() &&
@@ -268,7 +271,8 @@ class FormPesanMobilView extends GetView<FormPesanMobilController> {
                                             .validate()) {
                                       c.pesanMobil(
                                           dataMobil.id!,
-                                          hargaPerHariCalculated.toString(),
+                                          c.hargaPerHariCalculated.value
+                                              .toString(),
                                           dataMobil.namaMobil!,
                                           c.namaLengkapFormPesanC.text,
                                           c.noKtpFormPesanC.text,

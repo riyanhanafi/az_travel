@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -67,7 +69,7 @@ class DataReservasiView extends GetView<DataReservasiController> {
                       child: InkWell(
                         onTap: () {},
                         child: Container(
-                          height: 15.h,
+                          height: 20.h,
                           decoration: BoxDecoration(
                             color: black.withOpacity(0.2),
                             borderRadius: BorderRadius.circular(12),
@@ -89,7 +91,9 @@ class DataReservasiView extends GetView<DataReservasiController> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                            'Pemesan : ${dataPesananMobil.namaPemesan}'),
+                                          'Pemesan : \n${dataPesananMobil.namaPemesan}',
+                                          overflow: TextOverflow.clip,
+                                        ),
                                         Text(
                                             'Tanggal Pesanan : \n$tanggalPesanStartFormatted ${dataPesananMobil.tanggalPesanEnd == dataPesananMobil.tanggalPesanStart ? '' : '- $tanggalPesanEndFormatted'}'),
                                       ],
