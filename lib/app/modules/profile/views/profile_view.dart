@@ -1,4 +1,5 @@
 import 'package:az_travel/app/data/models/usermodel.dart';
+import 'package:az_travel/app/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -56,7 +57,7 @@ class ProfileView extends GetView<ProfileController> {
                         child: Container(
                           height: 100.h,
                           decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
+                              borderRadius: const BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
                               ),
@@ -80,7 +81,7 @@ class ProfileView extends GetView<ProfileController> {
                             height: 4.h,
                           ),
                           Text(
-                            '${data.username!} ',
+                            data.username!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineLarge!
@@ -92,7 +93,7 @@ class ProfileView extends GetView<ProfileController> {
                             height: 2.h,
                           ),
                           Text(
-                            '${data.email!} ',
+                            data.email!,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium!
@@ -103,8 +104,63 @@ class ProfileView extends GetView<ProfileController> {
                           SizedBox(
                             height: 4.h,
                           ),
-                          Container(
-                            height: 15.h,
+                          Padding(
+                            padding: EdgeInsets.only(left: 6.w, right: 6.w),
+                            child: Container(
+                              height: 10.h,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: light,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                    left: 5.w,
+                                    right: 5.w,
+                                    top: 1.h,
+                                    bottom: 1.h),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Kelola akun',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium!
+                                          .copyWith(
+                                              fontSize: 12.5.sp,
+                                              fontWeight: FontWeight.w600),
+                                    ),
+                                    SizedBox(
+                                      height: 1.h,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Get.toNamed(Routes.EDIT_PROFILE);
+                                      },
+                                      child: Row(
+                                        children: [
+                                          const Icon(PhosphorIconsRegular.user),
+                                          SizedBox(
+                                            width: 3.w,
+                                          ),
+                                          Text(
+                                            'Edit Profil',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!
+                                                .copyWith(
+                                                    fontSize: 10.5.sp,
+                                                    fontWeight:
+                                                        FontWeight.w400),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
                           ),
                           SizedBox(
                             height: 4.h,

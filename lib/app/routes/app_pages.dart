@@ -12,6 +12,8 @@ import '../modules/detail_mobil/bindings/detail_mobil_binding.dart';
 import '../modules/detail_mobil/views/detail_mobil_view.dart';
 import '../modules/detail_pelanggan/bindings/detail_pelanggan_binding.dart';
 import '../modules/detail_pelanggan/views/detail_pelanggan_view.dart';
+import '../modules/edit_profile/bindings/edit_profile_binding.dart';
+import '../modules/edit_profile/views/edit_profile_view.dart';
 import '../modules/form_mobil/bindings/form_mobil_binding.dart';
 import '../modules/form_mobil/views/form_mobil_view.dart';
 import '../modules/form_pesan_mobil/bindings/form_pesan_mobil_binding.dart';
@@ -122,6 +124,11 @@ class AppPages {
       name: _Paths.DETAIL_PELANGGAN,
       page: () => const DetailPelangganView(),
       binding: DetailPelangganBinding(),
+    ),
+    GetPage(
+      name: _Paths.EDIT_PROFILE,
+      page: () => const EditProfileView(),
+      binding: EditProfileBinding(),
     ),
   ];
 }
