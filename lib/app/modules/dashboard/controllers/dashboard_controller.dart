@@ -12,11 +12,11 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    firestoreDataMobilList = firestore.collection('DataMobil').snapshots().map(
-        (querySnapshot) => querySnapshot.docs
-            .map(
-                (documentSnapshot) => DataMobilModel.fromJson(documentSnapshot))
-            .toList());
+    // firestoreDataMobilList = firestore.collection('DataMobil').snapshots().map(
+    //     (querySnapshot) => querySnapshot.docs
+    //         .map(
+    //             (documentSnapshot) => DataMobilModel.fromJson(documentSnapshot))
+    //         .toList());
   }
 
   @override

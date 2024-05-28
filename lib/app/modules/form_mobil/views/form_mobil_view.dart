@@ -417,16 +417,16 @@ class FormMobilView extends GetView<FormMobilController> {
                           .validate() &&
                       controller.tahunFormKey.value.currentState!.validate()) {
                     if (updateStatus == 'update') {
-                      controller.editDataMobil(
-                        updateData!.id!,
-                        controller.namaMobilC.text,
-                        controller.merekC.text,
-                        controller.noPolisiC.text,
-                        controller.hargaPerHariC.text,
-                        controller.tipeBahanBakarC.text,
-                        controller.tahunC.text,
-                        controller.deskripsiC.text,
-                      );
+                      // controller.editDataMobil(
+                      //   updateData!.id!,
+                      //   controller.namaMobilC.text,
+                      //   controller.merekC.text,
+                      //   controller.noPolisiC.text,
+                      //   controller.hargaPerHariC.text,
+                      //   controller.tipeBahanBakarC.text,
+                      //   controller.tahunC.text,
+                      //   controller.deskripsiC.text,
+                      // );
                     } else {
                       controller.tambahDataMobil(
                         controller.namaMobilC.text,

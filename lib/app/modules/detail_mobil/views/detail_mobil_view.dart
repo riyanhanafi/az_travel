@@ -1,5 +1,6 @@
 import 'package:az_travel/app/data/models/datamobilmodel.dart';
 import 'package:az_travel/app/routes/app_pages.dart';
+import 'package:az_travel/app/utils/button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -19,6 +20,8 @@ class DetailMobilView extends GetView<DetailMobilController> {
     final formatCurrency =
         NumberFormat.simpleCurrency(locale: 'id_ID', decimalDigits: 0);
     int hargaPerHariIDR = int.parse(dataMobil.hargaPerHari!);
+    var fotoMobilURL =
+        dataMobil.fotoMobil!.replaceRange(7, 21, '10.0.2.2:8000');
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
         statusBarBrightness: Brightness.dark,
@@ -44,7 +47,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                     },
                     blendMode: BlendMode.dstOut,
                     child: Image.network(
-                      dataMobil.fotoMobil!,
+                      fotoMobilURL,
                       width: 100.w,
                       fit: BoxFit.contain,
                     ),
@@ -128,7 +131,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                     ),
                     Row(
                       children: [
-                        Icon(PhosphorIconsBold.squareHalfBottom),
+                        const Icon(PhosphorIconsBold.squareHalfBottom),
                         SizedBox(
                           width: 2.w,
                         ),
@@ -143,7 +146,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                     ),
                     Row(
                       children: [
-                        Icon(PhosphorIconsBold.calendar),
+                        const Icon(PhosphorIconsBold.calendar),
                         SizedBox(
                           width: 2.w,
                         ),
@@ -158,7 +161,7 @@ class DetailMobilView extends GetView<DetailMobilController> {
                     ),
                     Row(
                       children: [
-                        Icon(PhosphorIconsBold.engine),
+                        const Icon(PhosphorIconsBold.engine),
                         SizedBox(
                           width: 2.w,
                         ),
@@ -184,22 +187,30 @@ class DetailMobilView extends GetView<DetailMobilController> {
                       height: 4.h,
                     ),
                     Center(
-                      child: InkWell(
+                      child: buttonNoIcon(
                         onTap: () {
-                          Get.toNamed(Routes.FORM_PESAN_MOBIL,
+                          controller.cAniPesanSekarang.forward();
+                          Future.delayed(const Duration(milliseconds: 70), () {
+                            controller.cAniPesanSekarang.reverse();
+                          });
+                          Future.delayed(const Duration(milliseconds: 120))
+                              .then((value) {
+                            Get.toNamed(Routes.FORM_PESAN_MOBIL,
+                                arguments: dataMobil);
+                          });
+                        },
+                        animationController: controller.cAniPesanSekarang,
+                        onLongPressEnd: (details) async {
+                          await controller.cAniPesanSekarang.forward();
+                          await controller.cAniPesanSekarang.reverse();
+                          await Get.toNamed(Routes.FORM_PESAN_MOBIL,
                               arguments: dataMobil);
                         },
-                        child: Container(
-                          height: 6.h,
-                          decoration: BoxDecoration(
-                            color: yellow1_F9B401,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.only(right: 5.w, left: 5.w),
-                            child: const Center(child: Text('Pesan Sekarang')),
-                          ),
-                        ),
+                        elevation: 0,
+                        btnColor: yellow1_F9B401,
+                        width: 100.w,
+                        text: 'Pesan Sekarang',
+                        textColor: black,
                       ),
                     ),
                     SizedBox(

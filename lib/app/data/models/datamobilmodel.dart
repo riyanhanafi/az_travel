@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class DataMobilModel {
-  String? id;
+  int? id;
   String? namaMobil;
   String? merek;
   String? noPolisi;
@@ -23,18 +21,17 @@ class DataMobilModel {
     this.fotoMobil,
   });
 
-  factory DataMobilModel.fromJson(DocumentSnapshot data) {
-    final json = data.data() as Map<String, dynamic>;
+  factory DataMobilModel.fromJson(Map<String, dynamic> json) {
     return DataMobilModel(
-      id: json['id'],
-      namaMobil: json['namaMobil'],
+      id: json['id_mobil'],
+      namaMobil: json['nama_mobil'],
       merek: json['merek'],
-      noPolisi: json['noPolisi'],
-      hargaPerHari: json['hargaPerHari'],
-      tipeBahanBakar: json['tipeBahanBakar'],
+      noPolisi: json['no_polisi'],
+      hargaPerHari: json['harga'],
+      tipeBahanBakar: json['bahan_bakar'],
       tahun: json['tahun'],
       deskripsi: json['deskripsi'],
-      fotoMobil: json['fotoMobil'],
+      fotoMobil: json['foto_url'],
     );
   }
 }

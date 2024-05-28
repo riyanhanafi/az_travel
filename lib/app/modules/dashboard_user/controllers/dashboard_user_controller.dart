@@ -1,9 +1,11 @@
 // ignore_for_file: unnecessary_overrides
 
+import 'package:az_travel/app/controller/auth_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controller/api_controller.dart';
 import '../../../data/models/datamobilmodel.dart';
 
 class DashboardUserController extends GetxController
@@ -32,19 +34,26 @@ class DashboardUserController extends GetxController
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   late Stream<List<DataMobilModel>> firestoreDataMobilList;
+  late Future<List<DataMobilModel>> sqlDataMobilList;
 
   TextEditingController searchC = TextEditingController();
   var searchFormKey = GlobalKey<FormState>().obs;
   var searchFormKey2 = GlobalKey<FormState>().obs;
 
+  final authC = Get.put(AuthController());
+  final apiC = Get.put(APIController());
+
   @override
   void onInit() {
     super.onInit();
-    firestoreDataMobilList = firestore.collection('DataMobil').snapshots().map(
-        (querySnapshot) => querySnapshot.docs
-            .map(
-                (documentSnapshot) => DataMobilModel.fromJson(documentSnapshot))
-            .toList());
+    authC.readUser();
+    apiC.getDataMobil();
+    // apiC.getDataMobil();
+    // firestoreDataMobilList = firestore.collection('DataMobil').snapshots().map(
+    //     (querySnapshot) => querySnapshot.docs
+    //         .map(
+    //             (documentSnapshot) => DataMobilModel.fromJson(documentSnapshot))
+    //         .toList());
   }
 
   @override
