@@ -1,6 +1,5 @@
 import 'package:az_travel/app/theme/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sizer/sizer.dart';
 
@@ -14,10 +13,12 @@ class LoadingView extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          backgroundColor: light,
-          body: Center(
-              child: Lottie.asset('assets/lottie/loading_aztravel.json',
-                  height: 135))),
+        backgroundColor: light,
+        body: Center(
+          child:
+              Lottie.asset('assets/lottie/loading_aztravel.json', height: 135),
+        ),
+      ),
     );
   }
 }
@@ -26,7 +27,26 @@ Future<void> simulateDelay() async {
   await Future.delayed(const Duration(milliseconds: 1500));
 }
 
-Widget dialogLoading() {
+Future<void> simulateDelayShorter() async {
+  await Future.delayed(const Duration(milliseconds: 750));
+}
+
+Widget loadingProp() {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    crossAxisAlignment: CrossAxisAlignment.center,
+    children: [
+      SizedBox(
+        height: 25.h,
+      ),
+      Center(
+        child: Lottie.asset('assets/lottie/loading_aztravel.json', height: 135),
+      ),
+    ],
+  );
+}
+
+Widget dialogLoading(BuildContext context) {
   return Dialog(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     backgroundColor: light,
@@ -52,7 +72,7 @@ Widget dialogLoading() {
           Text(
             'Memuat...',
             textAlign: TextAlign.center,
-            style: getTextAlert(Get.context!),
+            style: getTextAlert(),
           ),
           const SizedBox(
             height: 5,

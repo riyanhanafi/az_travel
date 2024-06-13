@@ -43,8 +43,8 @@ class AZTravelApp extends StatelessWidget {
                 animationLink: 'assets/lottie/warning_aztravel.json',
                 text: "Terjadi Kesalahan!",
                 textSub: "Hubungi Developer",
-                textAlert: getTextAlert(context),
-                textAlertSub: getTextAlertSub(context),
+                textAlert: getTextAlert(),
+                textAlertSub: getTextAlertSub(),
               ),
             );
           }
@@ -54,7 +54,25 @@ class AZTravelApp extends StatelessWidget {
                   future: simulateDelay(),
                   builder: (context, snap) {
                     var authC = Get.put(AuthController());
+
                     if (snap.connectionState == ConnectionState.done) {
+                      // if (authC.isAuth.isTrue) {
+                      //   return GetMaterialApp(
+                      //     title: "AZ Travel",
+                      //     debugShowCheckedModeBanner: false,
+                      //     theme: AZTravelTheme.lightTheme,
+                      //     initialRoute: Routes.HOME,
+                      //     getPages: AppPages.routes,
+                      //   );
+                      // } else {
+                      //   return GetMaterialApp(
+                      //     title: "AZ Travel",
+                      //     debugShowCheckedModeBanner: false,
+                      //     theme: AZTravelTheme.lightTheme,
+                      //     initialRoute: Routes.LOGIN,
+                      //     getPages: AppPages.routes,
+                      //   );
+                      // }
                       return Obx(
                         () => GetMaterialApp(
                           title: "AZ Travel",

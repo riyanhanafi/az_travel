@@ -6,6 +6,7 @@ environment:
   sdk: ">=3.2.5 <4.0.0"
 
 dependencies:
+  app_links: ^6.1.1
   cloud_firestore: ^4.14.0
   cupertino_icons: ^1.0.2
   device_info_plus: ^9.1.2
@@ -28,12 +29,11 @@ dependencies:
   image_picker: ^1.0.7
   intl: ^0.19.0
   lottie: ^3.1.0
-  midpay: ^1.1.7
   midtrans_sdk: ^0.4.0
   permission_handler: ^11.3.0
   phosphor_flutter: ^2.0.1
   sizer: ^2.0.15
-  syncfusion_flutter_datepicker: ^25.1.35
+  syncfusion_flutter_datepicker: 25.1.35
   webview_flutter: ^4.7.0
 
 dev_dependencies:
